@@ -58,7 +58,13 @@ class block_dashboard extends block_base
         $dashrenderclass = "local_culcourse_dashboard\output\dashboard";
         $out = '';
         if (class_exists($dashrenderclass)) {
-            $config = (array)$this->config;
+            if ($this->config == null) {
+              $dashformatclass = "local_culcourse_dashboard\\format\\dashboard";
+              $dashformat = new $dashformatclass();
+              $config = $dashformat->get_dashboard_default_options();
+            } else {
+              $config = (array)$this->config;
+            }
             $dashboard = new $dashrenderclass($COURSE, null, $config, $frmblk = true);
             $dash = new renderer_base($PAGE, $out);
             $templatecontext = $dashboard->export_for_template($dash);
