@@ -47,14 +47,22 @@ class block_dashboard extends block_base
      * @return  bool|stdClass|stdObject
      * @throws  dml_exception
      */
-    public function get_content($culcourseoverride = false) {
+    public function get_content($fordisplayincourseheader = false) {
         global $COURSE, $PAGE;
         if ($this->content !== null) {
             return $this->content;
         }
 
 
-        if ($COURSE->format == 'culcourse' && !$culcourseoverride) {
+        $format = course_get_format($COURSE);
+        $options = $format->get_format_options();
+
+        $forcedisplayasblock = false;
+        if ($options['showdashboardasblock'] == 1) {
+            $forcedisplayasblock = true;
+        } 
+
+        if ($COURSE->format == 'culcourse' && !$forcedisplayasblock && !$fordisplayincourseheader) {
             return '';
         }
         $this->content = new stdClass();
@@ -72,10 +80,10 @@ class block_dashboard extends block_base
             $dashboard = new $dashrenderclass($COURSE, null, $config, $frmblk = true);
             $dash = new renderer_base($PAGE, $out);
             $templatecontext = $dashboard->export_for_template($dash);
-            if ($COURSE->format != 'culcourse' || !$culcourseoverride) {
-                $out .= $dash->render_from_template('local_culcourse_dashboard/dashboard_side', $templatecontext);
-            } else {
+            if ($fordisplayincourseheader && !$forcedisplayasblock )  {
                 $out .= $dash->render_from_template('local_culcourse_dashboard/dashboard', $templatecontext);
+            } else {
+                $out .= $dash->render_from_template('local_culcourse_dashboard/dashboard_side', $templatecontext);
             }
         }
         $this->content->text = $out;
