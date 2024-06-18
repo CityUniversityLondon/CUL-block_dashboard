@@ -47,12 +47,16 @@ class block_dashboard extends block_base
      * @return  bool|stdClass|stdObject
      * @throws  dml_exception
      */
-    public function get_content() {
+    public function get_content($culcourseoverride = false) {
         global $COURSE, $PAGE;
         if ($this->content !== null) {
             return $this->content;
         }
 
+
+        if ($COURSE->format == 'culcourse' && !$culcourseoverride) {
+            return '';
+        }
         $this->content = new stdClass();
         // Get the renderer for this page.
         $dashrenderclass = "local_culcourse_dashboard\output\dashboard";
@@ -68,8 +72,7 @@ class block_dashboard extends block_base
             $dashboard = new $dashrenderclass($COURSE, null, $config, $frmblk = true);
             $dash = new renderer_base($PAGE, $out);
             $templatecontext = $dashboard->export_for_template($dash);
-            // If block in side-pre then display side template.
-            if ($this->instance->region == 'side-pre') {
+            if ($COURSE->format != 'culcourse' || !$culcourseoverride) {
                 $out .= $dash->render_from_template('local_culcourse_dashboard/dashboard_side', $templatecontext);
             } else {
                 $out .= $dash->render_from_template('local_culcourse_dashboard/dashboard', $templatecontext);
