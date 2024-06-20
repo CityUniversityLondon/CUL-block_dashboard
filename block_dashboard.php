@@ -58,11 +58,16 @@ class block_dashboard extends block_base
         $options = $format->get_format_options();
 
         $forcedisplayasblock = false;
-        if ($options['showdashboardasblock'] == 1) {
+        if (isset($options['showdashboardasblock']) && $options['showdashboardasblock'] == 1) {
             $forcedisplayasblock = true;
         } 
 
         if ($COURSE->format == 'culcourse' && !$forcedisplayasblock && !$fordisplayincourseheader) {
+            // If displaying in header, return nothing for the block, making it disappear.
+            return '';
+        }
+        if ($COURSE->format == 'culcourse' && $forcedisplayasblock && $fordisplayincourseheader) {
+            // If displaying as block, return nothing for the in course header.
             return '';
         }
         $this->content = new stdClass();
