@@ -48,11 +48,10 @@ class block_dashboard extends block_base
      * @throws  dml_exception
      */
     public function get_content($fordisplayincourseheader = false) {
-        global $COURSE, $PAGE;
+        global $COURSE;
         if ($this->content !== null) {
             return $this->content;
         }
-
 
         $format = course_get_format($COURSE);
         $options = $format->get_format_options();
@@ -60,7 +59,7 @@ class block_dashboard extends block_base
         $forcedisplayasblock = false;
         if (isset($options['showdashboardasblock']) && $options['showdashboardasblock'] == 1) {
             $forcedisplayasblock = true;
-        } 
+        }
 
         if ($COURSE->format == 'culcourse' && !$forcedisplayasblock && !$fordisplayincourseheader) {
             // If displaying in header, return nothing for the block, making it disappear.
@@ -76,19 +75,24 @@ class block_dashboard extends block_base
         $out = '';
         if (class_exists($dashrenderclass)) {
             if ($this->config == null) {
-              $dashformatclass = "local_culcourse_dashboard\\format\\dashboard";
-              $dashformat = new $dashformatclass();
-              $config = $dashformat->get_dashboard_default_options();
+                $dashformatclass = "local_culcourse_dashboard\\format\\dashboard";
+                $dashformat = new $dashformatclass();
+                $config = $dashformat->get_dashboard_default_options();
             } else {
-              $config = (array)$this->config;
+                $config = (array)$this->config;
             }
             $dashboard = new $dashrenderclass($COURSE, null, $config, $frmblk = true);
-            $dash = new renderer_base($PAGE, $out);
+            $dash = new renderer_base($this->page, $out);
             $templatecontext = $dashboard->export_for_template($dash);
-            if ($fordisplayincourseheader && !$forcedisplayasblock )  {
-                $out .= $dash->render_from_template('local_culcourse_dashboard/dashboard', $templatecontext);
+            if (!$templatecontext->userisediting && !$templatecontext->activitiesexist && !$templatecontext->quicklinksexist) {
+                // Hide block when nothing to show to non-editing user.
+                $out = '';
             } else {
-                $out .= $dash->render_from_template('local_culcourse_dashboard/dashboard_side', $templatecontext);
+                if ($fordisplayincourseheader && !$forcedisplayasblock) {
+                    $out .= $dash->render_from_template('local_culcourse_dashboard/dashboard', $templatecontext);
+                } else {
+                    $out .= $dash->render_from_template('local_culcourse_dashboard/dashboard_side', $templatecontext);
+                }
             }
         }
         $this->content->text = $out;
