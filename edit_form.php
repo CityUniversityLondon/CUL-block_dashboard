@@ -44,7 +44,7 @@ class block_dashboard_edit_form extends block_edit_form {
         $dashboardoptions = [];
         if (class_exists($dashboardclass)) {
             $dashboard = new $dashboardclass();
-            $dashboardoptions = $dashboard->get_dashboard_block_options($id);            
+            $dashboardoptions = $dashboard->get_dashboard_block_options($id);
         }
 
         // Section header title according to language file.
@@ -57,7 +57,7 @@ class block_dashboard_edit_form extends block_edit_form {
             $type = isset($data['name']) && $data['name'] ? 'selectyesno' : 'hidden';
             $settype = isset($data['type']) && $data['type'] ? $data['type'] : '';
             $name = isset($data['name']) && $data['name'] ? $data['name'] : '';
-            if (in_array($element, ['quicklinksequence','activitylinksequence'])) {
+            if (in_array($element, ['quicklinksequence', 'activitylinksequence'])) {
                 $type = 'text';
                 $name = get_string('setshowsequence', 'local_culcourse_dashboard', $element);
             }

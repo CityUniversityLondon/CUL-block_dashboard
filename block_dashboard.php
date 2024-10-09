@@ -32,8 +32,8 @@ defined('MOODLE_INTERNAL') || die;
  * @copyright  2023 Onwards City University {@link https://www.city.ac.uk/}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class block_dashboard extends block_base
-{
+class block_dashboard extends block_base {
+
     /**
      * Initialise block, set title.
      */
@@ -79,7 +79,7 @@ class block_dashboard extends block_base
     public function applicable_formats() {
         return [
             'all' => false,
-            'course-view' => true
+            'course-view' => true,
         ];
     }
 
