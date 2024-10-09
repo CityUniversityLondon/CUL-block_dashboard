@@ -25,7 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->component = 'block_dashboard';          // Recommended since 2.0.2 (MDL-26035). Required since 3.0 (MDL-48494).
-$plugin->version = 2023112700;                          // YYYYMMDDHH (year, month, day, 24-hr format hour).
-$plugin->requires = 2022112800;                         // YYYYMMDDHH (Version number for Moodle v3.5.3 as at 21/01/2019).
-$plugin->maturity = MATURITY_STABLE;                    // Code maturity/stability.                           // Human-readable release version.
+$plugin->component = 'block_dashboard';
+$plugin->version = 2023112700; // YYYYMMDDHH (year, month, day, 24-hr format hour).
+$plugin->requires = 2022112800; // YYYYMMDDHH (Moodle v3.5.3 as at 21/01/2019).
+$plugin->maturity = MATURITY_STABLE; // Code maturity/stability.
