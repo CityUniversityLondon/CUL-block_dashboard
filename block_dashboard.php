@@ -23,9 +23,6 @@
  * @author     Delvon Forrester <delvon.forrester@esparanza.co.uk>
  */
 
-defined('MOODLE_INTERNAL') || die;
-
-
 /**
  * Class block_dashboard extends base blocks class.
  *
