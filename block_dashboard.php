@@ -45,7 +45,7 @@ class block_dashboard extends block_base {
      * @throws  dml_exception
      */
     public function get_content() {
-        global $COURSE, $PAGE;
+        global $COURSE;
         if ($this->content !== null) {
             return $this->content;
         }
@@ -57,7 +57,7 @@ class block_dashboard extends block_base {
         if (class_exists($dashrenderclass)) {
             $config = (array)$this->config;
             $dashboard = new $dashrenderclass($COURSE, null, $config, $frmblk = true);
-            $dash = new renderer_base($PAGE, $out);
+            $dash = new renderer_base($this->page, $out);
             $templatecontext = $dashboard->export_for_template($dash);
             // If block in side-pre then display side template.
             if ($this->instance->region == 'side-pre') {
