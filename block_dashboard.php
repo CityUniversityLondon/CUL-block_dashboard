@@ -52,21 +52,32 @@ class block_dashboard extends block_base
         if ($this->content !== null) {
             return $this->content;
         }
-
-        $format = course_get_format($COURSE);
-        $options = $format->get_format_options();
-
-        $forcedisplayasblock = false;
-        if (isset($options['showdashboardasblock']) && $options['showdashboardasblock'] == 1) {
-            $forcedisplayasblock = true;
+        $course = new \core_course_list_element($COURSE);
+        $forcedisplayasblock = true;
+        if ($course->has_custom_fields()) {
+            $customfields = $course->get_custom_fields();
+            foreach ($customfields as $data) {
+                  $field = $data->get_field();
+                  if ($field->get('shortname') === 'dashboardasblock') {
+                      $forcedisplayasblock = ($data->get_value() == 1);
+                      break;
+                  }
+            }
         }
-
-        if ($COURSE->format == 'culcourse' && !$forcedisplayasblock && !$fordisplayincourseheader) {
+        if ($COURSE->format == 'topics' && !$forcedisplayasblock && !$fordisplayincourseheader) {
             // If displaying in header, return nothing for the block, making it disappear.
             return '';
         }
-        if ($COURSE->format == 'culcourse' && $forcedisplayasblock && $fordisplayincourseheader) {
-            // If displaying as block, return nothing for the in course header.
+        if ($COURSE->format == 'topics' && $forcedisplayasblock && $fordisplayincourseheader) {
+            // If displaying as block, return nothing for the course header, making it disappear.
+            return '';
+        }
+        if ($COURSE->format == 'weeks' && !$forcedisplayasblock && !$fordisplayincourseheader) {
+            // If displaying in header, return nothing for the block, making it disappear.
+            return '';
+        }
+        if ($COURSE->format == 'weeks' && $forcedisplayasblock && $fordisplayincourseheader) {
+            // If displaying as block, return nothing for the course header, making it disappear.
             return '';
         }
         $this->content = new stdClass();
