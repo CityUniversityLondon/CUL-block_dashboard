@@ -30,7 +30,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class block_dashboard_edit_form extends block_edit_form {
-
     /**
      * Build form.
      *
@@ -59,15 +58,15 @@ class block_dashboard_edit_form extends block_edit_form {
                 $type = 'text';
                 $name = get_string('setshowsequence', 'local_culcourse_dashboard', $element);
             }
-            $mform->addElement($type, 'config_'.$element, $name);
+            $mform->addElement($type, 'config_' . $element, $name);
             if (isset($data['help']) && $data['help']) {
-                $mform->addHelpButton('config_'.$element, $data['help'], 'local_culcourse_dashboard');
+                $mform->addHelpButton('config_' . $element, $data['help'], 'local_culcourse_dashboard');
             }
             if ($default) {
-                $mform->setDefault('config_'.$element, $default);
+                $mform->setDefault('config_' . $element, $default);
             }
             if ($settype) {
-                $mform->setType('config_'.$element, $settype);
+                $mform->setType('config_' . $element, $settype);
             }
         }
     }
