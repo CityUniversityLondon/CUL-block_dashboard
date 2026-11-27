@@ -22,6 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     Delvon Forrester <delvon.forrester@esparanza.co.uk>
  */
+
 $string['add_announcement_global_notice'] = 'This announcement will be displayed globally/site-wide!';
 $string['add_notif_local_notice'] = 'This announcement will <em>only</em> be displayed on the page you\'re managing this block from!';
 $string['dashboard'] = 'Culcourse dashboard';
